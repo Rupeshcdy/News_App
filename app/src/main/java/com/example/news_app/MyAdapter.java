@@ -1,12 +1,15 @@
 package com.example.news_app;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.news_app.Model.Headlines;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -26,9 +29,16 @@ public class MyAdapter extends RecyclerView.Adapter<CustomViewHolder> {
         holder.txt_title.setText(headlines.get(position).getTitle());
         holder.txt_source.setText(headlines.get(position).getModel().getName());
         if(headlines.get(position).getUrlToImage()!=null){
-
+            Picasso.get().load(headlines.get(position).getUrlToImage()).into(holder.imageView);
         }
-
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MyAdapter.this,DetailsNews.class);
+                intent.putExtra("url",headlines.get(position).getUrl());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
